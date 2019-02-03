@@ -1,1 +1,1 @@
-add_library(clox chunk.c memory.c debug.c value.c vm.c)
+add_library(clox chunk.c memory.c debug.c value.c vm.c compiler.c scanner.c)
