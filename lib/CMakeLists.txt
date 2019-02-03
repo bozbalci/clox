@@ -1,0 +1,1 @@
+add_library(clox chunk.c memory.c debug.c value.c)
