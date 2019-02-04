@@ -1,8 +1,10 @@
 #include <clox/value.h>
 
 #include <clox/memory.h>
+#include <clox/object.h>
 
 #include <stdio.h>
+#include <string.h>
 
 bool valuesEqual(Value a, Value b) {
     if (a.type != b.type) return false;
@@ -11,6 +13,13 @@ bool valuesEqual(Value a, Value b) {
         case VAL_BOOL:   return AS_BOOL(a) == AS_BOOL(b);
         case VAL_NIL:    return true;
         case VAL_NUMBER: return AS_NUMBER(a) == AS_NUMBER(a);
+        case VAL_OBJ: {
+            ObjString *aString = AS_STRING(a);
+            ObjString *bString = AS_STRING(b);
+            return aString->length == bString->length &&
+                   memcmp(aString->chars, bString->chars,
+                          (size_t) aString->length) == 0;
+        }
     }
 }
 
@@ -42,5 +51,6 @@ void printValue(Value value) {
         case VAL_BOOL:   printf(AS_BOOL(value) ? "true" : "false"); break;
         case VAL_NIL:    printf("nil"); break;
         case VAL_NUMBER: printf("%g", AS_NUMBER(value)); break;
+        case VAL_OBJ:    printObject(value); break;
     }
 }
